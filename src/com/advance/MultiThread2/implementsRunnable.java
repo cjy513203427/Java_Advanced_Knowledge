@@ -2,16 +2,16 @@ package com.advance.MultiThread2;
 
 /**
  * @Auther: 谷天乐
- * @Date: 2018/10/25 14:42
+ * @Date: 2018/10/25 15:05
  * @Description:
  */
-class hello extends Thread {
+class hello2 implements Runnable {
 
-    public hello() {
+    public hello2() {
 
     }
 
-    public hello(String name) {
+    public hello2(String name) {
         this.name = name;
     }
 
@@ -22,15 +22,12 @@ class hello extends Thread {
     }
 
     public static void main(String[] args) {
-        Thread h1=new hello("A");
-        Thread h2=new hello("B");
-        //普通的run方法，顺序执行，先执行A，再执行B
-        /*h1.run();
-        h2.run();*/
-        //调用start方法，从新建(New)到就绪状态(Runnable)。
-        //每次执行结果都不一样，因为线程获取CPU的时间是不一样的
-        h1.start();
-        h2.start();
+        hello2 h1=new hello2("线程A");
+        Thread demo= new Thread(h1);
+        hello2 h2=new hello2("线程B");
+        Thread demo1=new Thread(h2);
+        demo.start();
+        demo1.start();
     }
 
     private String name;

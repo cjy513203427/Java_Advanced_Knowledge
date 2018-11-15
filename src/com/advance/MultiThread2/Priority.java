@@ -14,6 +14,9 @@ class hello9 implements Runnable {
     }
 
     public static void main(String[] args) {
+        //主线程优先级是5
+        //优先级越大优先级越高
+        //设置优先级只能增加优先执行的概率
         Thread h1=new Thread(new hello9(),"A");
         Thread h2=new Thread(new hello9(),"B");
         Thread h3=new Thread(new hello9(),"C");

@@ -19,6 +19,7 @@ class hello6 implements Runnable {
         for(int i=0;i<50;++i){
             //强制执行的线程必须在i=11之前执行
             //join()使main线程进入阻塞状态，main线程放弃cpu控制权，等到join()中断才轮到main继续执行
+            //Java默认启动main线程
             if(i>10){
                 try{
                     demo.join();  //强制执行demo

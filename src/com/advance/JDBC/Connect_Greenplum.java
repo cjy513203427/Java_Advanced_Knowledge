@@ -9,6 +9,7 @@ import java.sql.*;
  * 通过JDBC连接Greenplum
  */
 public class Connect_Greenplum {
+    //表信息
     static class TbInfo
     {
         //分布键
@@ -40,6 +41,70 @@ public class Connect_Greenplum {
 
         public void setAmt(String amt) {
             this.amt = amt;
+        }
+    }
+
+    //表结构
+    static class TbStructure{
+        //appendonly属性
+        boolean appendonly = true;
+        //压缩类型
+        String compresstype = "zlib";
+        //压缩级别
+        int compresslevel = 5;
+        //表的列和类型，用逗号分隔
+        String columnInfo;
+        //表名称
+        String tbName;
+        //分布键
+        String distributedKey;
+
+        public String getCompresstype() {
+            return compresstype;
+        }
+
+        public void setCompresstype(String compresstype) {
+            this.compresstype = compresstype;
+        }
+
+        public boolean isAppendonly() {
+            return appendonly;
+        }
+
+        public void setAppendonly(boolean appendonly) {
+            this.appendonly = appendonly;
+        }
+
+        public int getCompresslevel() {
+            return compresslevel;
+        }
+
+        public void setCompresslevel(int compresslevel) {
+            this.compresslevel = compresslevel;
+        }
+
+        public String getColumnInfo() {
+            return columnInfo;
+        }
+
+        public void setColumnInfo(String columnInfo) {
+            this.columnInfo = columnInfo;
+        }
+
+        public String getTbName() {
+            return tbName;
+        }
+
+        public void setTbName(String tbName) {
+            this.tbName = tbName;
+        }
+
+        public String getDistributedKey() {
+            return distributedKey;
+        }
+
+        public void setDistributedKey(String distributedKey) {
+            this.distributedKey = distributedKey;
         }
     }
 
@@ -125,6 +190,7 @@ public class Connect_Greenplum {
         return rs;
     }
 
+    //输出
     public static void output(ResultSet rs) throws SQLException {
         while(rs.next())
         {
@@ -134,6 +200,30 @@ public class Connect_Greenplum {
                     " 价格:"+rs.getString("amt"));
         }
     }
+
+    //删除表
+    public static Integer dropTable(String tableName) throws SQLException, ClassNotFoundException {
+        conn = connectGreenplum();
+        String sql = "DROP TABLE if EXISTS "+tableName+";";
+        pstmt = conn.prepareStatement(sql);
+        Integer rs = pstmt.executeUpdate();
+        return rs;
+    }
+
+    //创建表
+    public static Integer createTable(String tbName,String columnInfo,String distributedKey) throws SQLException, ClassNotFoundException {
+        conn = connectGreenplum();
+        TbStructure tbStructure = new TbStructure();
+        String sql = "CREATE TABLE "+tbName+" ("+columnInfo+")\n" +
+                "WITH (appendonly="+tbStructure.isAppendonly()+", " +
+                "compresstype="+tbStructure.getCompresstype()+",\n" +
+                "compresslevel="+tbStructure.getCompresslevel()+")   DISTRIBUTED BY ("+distributedKey+");";
+        pstmt = conn.prepareStatement(sql);
+        Integer rs = pstmt.executeUpdate();
+        System.out.println("成功创建foo表");
+        return rs;
+    }
+
     public static void main(String[] args) {
         try {
             // 插入功能
@@ -157,9 +247,11 @@ public class Connect_Greenplum {
             update(updateSql,tbInfo1);*/
 
             //查询
-            String selectSql = "select * from tb_cp_02";
+            /*String selectSql = "select * from tb_cp_02";
             ResultSet rs = query(selectSql);
-            output(rs);
+            output(rs);*/
+            dropTable("foo");
+            createTable("foo","a int, b text","a");
             closeConnection();
         } catch (Exception e) {
             e.printStackTrace();

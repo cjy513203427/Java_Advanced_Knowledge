@@ -16,6 +16,7 @@ public class RedisListJava {
         jedis.lpush("site-list", "Runoob");
         jedis.lpush("site-list", "Google");
         jedis.lpush("site-list", "Taobao");
+        jedis.ltrim("site-list",0,1);
         // 获取存储的数据并输出
         List<String> list = jedis.lrange("site-list", 0 ,2);
         for(int i=0; i<list.size(); i++) {

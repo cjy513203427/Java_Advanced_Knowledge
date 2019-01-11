@@ -273,6 +273,9 @@ public class Connect_Greenplum {
         return rs;
     }
 
+    //复制外部表
+
+
     //删除外部表
     public static Integer dropExternalTable(String tableName) throws SQLException, ClassNotFoundException {
         conn = connectGreenplum();

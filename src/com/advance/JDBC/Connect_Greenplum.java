@@ -1,6 +1,7 @@
 package com.advance.JDBC;
 
 import java.sql.*;
+import java.util.*;
 
 /**
  * @Auther: 谷天乐
@@ -160,6 +161,31 @@ public class Connect_Greenplum {
         return rs;
     }
 
+    //通用增删改
+    public static void update(String sql,Object []values) throws SQLException, ClassNotFoundException {
+        //获取数据库链接
+        conn=connectGreenplum();
+        try {
+            //预编译
+            pstmt=conn.prepareStatement(sql);
+            //获取ParameterMetaData()对象
+            ParameterMetaData pmd=pstmt.getParameterMetaData();
+            //获取参数个数
+            int number=pmd.getParameterCount();
+            //循环设置参数值
+            for (int i = 1; i <=number; i++) {
+                pstmt.setObject(i, values[i-1]);
+            }
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            closeConnection();
+        }
+    }
+
+
+
     //新增方法
     public static Integer insert(String sql,TbInfo tbInfo) throws SQLException, ClassNotFoundException {
         Connection conn = connectGreenplum();
@@ -201,10 +227,56 @@ public class Connect_Greenplum {
         }
     }
 
+    //ResultSet转换成list
+    public static List resultSetToList(ResultSet rs) throws java.sql.SQLException {
+        if (rs == null)
+            return Collections.EMPTY_LIST;
+        ResultSetMetaData md = rs.getMetaData(); //得到结果集(rs)的结构信息，比如字段数、字段名等
+        int columnCount = md.getColumnCount(); //返回此 ResultSet 对象中的列数
+        List list = new ArrayList();
+        Map rowData;
+        while (rs.next()) {
+            rowData = new HashMap(columnCount);
+            for (int i = 1; i <= columnCount; i++) {
+                rowData.put(md.getColumnName(i), rs.getObject(i));
+            }
+            list.add(rowData);
+            System.out.println("list:" + list.toString());
+        }
+        return list;
+    }
+
+    //增加表的列
+    public static Integer addColumn(String tableName,String column) throws SQLException, ClassNotFoundException {
+        conn = connectGreenplum();
+        String sql = "ALTER TABLE "+tableName+" ADD COLUMN "+column+";";
+        pstmt = conn.prepareStatement(sql);
+        Integer rs = pstmt.executeUpdate();
+        return rs;
+    }
+
+    //删除表的列
+    public static Integer dropColumn(String tableName,String column) throws SQLException, ClassNotFoundException {
+        conn = connectGreenplum();
+        String sql = "ALTER TABLE "+tableName+" DROP COLUMN "+column+";";
+        pstmt = conn.prepareStatement(sql);
+        Integer rs = pstmt.executeUpdate();
+        return rs;
+    }
+
     //删除表
     public static Integer dropTable(String tableName) throws SQLException, ClassNotFoundException {
         conn = connectGreenplum();
         String sql = "DROP TABLE if EXISTS "+tableName+";";
+        pstmt = conn.prepareStatement(sql);
+        Integer rs = pstmt.executeUpdate();
+        return rs;
+    }
+
+    //删除外部表
+    public static Integer dropExternalTable(String tableName) throws SQLException, ClassNotFoundException {
+        conn = connectGreenplum();
+        String sql = "DROP EXTERNAL TABLE if EXISTS "+tableName+";";
         pstmt = conn.prepareStatement(sql);
         Integer rs = pstmt.executeUpdate();
         return rs;
@@ -220,7 +292,19 @@ public class Connect_Greenplum {
                 "compresslevel="+tbStructure.getCompresslevel()+")   DISTRIBUTED BY ("+distributedKey+");";
         pstmt = conn.prepareStatement(sql);
         Integer rs = pstmt.executeUpdate();
-        System.out.println("成功创建foo表");
+        return rs;
+    }
+
+    //创建可读外部表，需要启动gpfdist服务，再导入csv
+    public static Integer createExternalTable(String tbName,String columnInfo,String location,
+                                              String format,String delimiter) throws SQLException, ClassNotFoundException {
+        conn = connectGreenplum();
+        String sql = "CREATE EXTERNAL TABLE "+tbName+" ("+columnInfo+") \n" +
+                "LOCATION ("+"\'"+location+"\'"+")\n" +
+                "FORMAT "+"\'"+format+"\'"+" (DELIMITER "+"\'"+delimiter+"\'"+")\n";
+        pstmt = conn.prepareStatement(sql);
+        Integer rs = pstmt.executeUpdate();
+        System.out.println("成功创建外部表");
         return rs;
     }
 
@@ -246,12 +330,32 @@ public class Connect_Greenplum {
             tbInfo1.setAmt("1001.0");
             update(updateSql,tbInfo1);*/
 
+            /*for (TbInfo tb:tbInfos
+                 ) {
+                System.out.println(tb.getId());
+            }*/
+            //dropTable("tb_tag_1_read");
+            //createTable("foo","a int, b text","a");
+//            dropExternalTable("tb_tag_1_read");
+//            createExternalTable("tb_tag_1_read","id text,school_commun_flag text,wire_tv_flag text",
+//                    "gpfdist://mdw:8081/20190108.csv","CSV",";");
+            update("update tb_cp_02 set amt = ? where id = ?",new Object[]{"1000","7"});
+
+
             //查询
-            /*String selectSql = "select * from tb_cp_02";
+            String selectSql = "select * from tb_cp_02";
             ResultSet rs = query(selectSql);
-            output(rs);*/
-            dropTable("foo");
-            createTable("foo","a int, b text","a");
+            List<TbInfo> tbInfos = resultSetToList(rs);
+            Iterator it = tbInfos.iterator();
+            while(it.hasNext()) {
+                Map hm = (Map)it.next();
+                System.out.println(hm.get("id"));
+                System.out.println(hm.get("amt"));
+                System.out.println(hm.get("date"));
+            }
+
+            //addColumn("ta_ovm_cust_01_day_20190108","description text");
+            dropColumn("ta_ovm_cust_01_day_20190108","description");
             closeConnection();
         } catch (Exception e) {
             e.printStackTrace();

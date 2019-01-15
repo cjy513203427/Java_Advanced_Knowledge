@@ -1,4 +1,4 @@
 *.class
-/.idea/*.xml
-/.idea/libraries/*.xml
+.idea/
 *.iml
+out/

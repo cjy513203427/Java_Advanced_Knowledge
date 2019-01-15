@@ -227,7 +227,27 @@ public class Connect_Greenplum {
         }
     }
 
-    //ResultSet转换成list
+    /**
+     *
+     * @Title: resultSetToList
+     * @Description: ResultSet转换成list
+     * 调用方法如下
+     * String selectSql = "sql语句";
+    ResultSet rs = query(selectSql);
+    List<TbInfo> tbInfos = resultSetToList(rs);
+     * 遍历方法如下
+    Iterator it = tbInfos.iterator();
+    while(it.hasNext()) {
+    Map hm = (Map)it.next();
+    logger.info(hm.get("key的名称"));
+    }
+     * @Author: chenjinyao
+     * @param: @param rs
+     * @param: @return
+     * @param: @throws java.sql.SQLException
+     * @return: List
+     * @throws
+     */
     public static List resultSetToList(ResultSet rs) throws java.sql.SQLException {
         if (rs == null)
             return Collections.EMPTY_LIST;
@@ -241,7 +261,25 @@ public class Connect_Greenplum {
                 rowData.put(md.getColumnName(i), rs.getObject(i));
             }
             list.add(rowData);
-            System.out.println("list:" + list.toString());
+            //System.out.println("list:" + list.toString());
+        }
+        return list;
+    }
+
+    //返回手机号list
+    public static List<String> resultSetToList2(ResultSet rs) throws java.sql.SQLException {
+        if (rs == null)
+            return null;
+        ResultSetMetaData md = rs.getMetaData(); //得到结果集(rs)的结构信息，比如字段数、字段名等
+        int columnCount = md.getColumnCount(); //返回此 ResultSet 对象中的列数
+        List list = new ArrayList();
+        Map rowData;
+        while (rs.next()) {
+            rowData = new HashMap(columnCount);
+            for (int i = 1; i <= columnCount; i++) {
+                rowData.put(md.getColumnName(i), rs.getObject(i));
+            }
+            list.add(rowData.get("serial_number"));
         }
         return list;
     }
@@ -274,7 +312,13 @@ public class Connect_Greenplum {
     }
 
     //复制外部表
-
+    public static Integer copyExternalTable(String tableName) throws SQLException, ClassNotFoundException {
+        conn = connectGreenplum();
+        String sql = "CREATE TABLE "+tableName+"_copy as SELECT * FROM "+tableName+";";
+        pstmt = conn.prepareStatement(sql);
+        Integer rs = pstmt.executeUpdate();
+        return rs;
+    }
 
     //删除外部表
     public static Integer dropExternalTable(String tableName) throws SQLException, ClassNotFoundException {
@@ -299,6 +343,7 @@ public class Connect_Greenplum {
     }
 
     //创建可读外部表，需要启动gpfdist服务，再导入csv
+    //需要启动gpfdist服务： gpfdist -d /data/load_files -p 8081 -l /home/gpadmin/log &
     public static Integer createExternalTable(String tbName,String columnInfo,String location,
                                               String format,String delimiter) throws SQLException, ClassNotFoundException {
         conn = connectGreenplum();
@@ -342,23 +387,27 @@ public class Connect_Greenplum {
 //            dropExternalTable("tb_tag_1_read");
 //            createExternalTable("tb_tag_1_read","id text,school_commun_flag text,wire_tv_flag text",
 //                    "gpfdist://mdw:8081/20190108.csv","CSV",";");
-            update("update tb_cp_02 set amt = ? where id = ?",new Object[]{"1000","7"});
+            //update("update tb_cp_02 set amt = ? where id = ?",new Object[]{"1000","7"});
 
 
             //查询
-            String selectSql = "select * from tb_cp_02";
+            String selectSql = "select * from ta_ovm_cust_01_day_20190108";
             ResultSet rs = query(selectSql);
-            List<TbInfo> tbInfos = resultSetToList(rs);
+            /*List<TbInfo> tbInfos = resultSetToList(rs);
             Iterator it = tbInfos.iterator();
             while(it.hasNext()) {
                 Map hm = (Map)it.next();
                 System.out.println(hm.get("id"));
                 System.out.println(hm.get("amt"));
                 System.out.println(hm.get("date"));
-            }
+            }*/
 
+            List<String> date = resultSetToList2(rs);
+            System.out.println(date);
             //addColumn("ta_ovm_cust_01_day_20190108","description text");
-            dropColumn("ta_ovm_cust_01_day_20190108","description");
+            //dropColumn("ta_ovm_cust_01_day_20190108","description");
+
+            //copyExternalTable("tb_tag_1");
             closeConnection();
         } catch (Exception e) {
             e.printStackTrace();

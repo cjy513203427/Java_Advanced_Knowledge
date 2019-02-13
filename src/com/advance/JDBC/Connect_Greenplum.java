@@ -261,7 +261,6 @@ public class Connect_Greenplum {
                 rowData.put(md.getColumnName(i), rs.getObject(i));
             }
             list.add(rowData);
-            //System.out.println("list:" + list.toString());
         }
         return list;
     }

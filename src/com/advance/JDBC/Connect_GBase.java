@@ -73,13 +73,11 @@ public class Connect_GBase {
      * @Param [rs]
      * @return java.util.List
      **/
-    public static List resultSetToList(ResultSet rs) throws java.sql.SQLException {
+    public static List resultSetToList(ResultSet rs,String columnName) throws java.sql.SQLException {
         if (rs == null)
             return Collections.EMPTY_LIST;
-        //得到结果集(rs)的结构信息，比如字段数、字段名等
-        ResultSetMetaData md = rs.getMetaData();
-        //返回此 ResultSet 对象中的列数
-        int columnCount = md.getColumnCount();
+        ResultSetMetaData md = rs.getMetaData(); //得到结果集(rs)的结构信息，比如字段数、字段名等
+        int columnCount = md.getColumnCount(); //返回此 ResultSet 对象中的列数
         List list = new ArrayList();
         Map rowData;
         while (rs.next()) {
@@ -87,7 +85,11 @@ public class Connect_GBase {
             for (int i = 1; i <= columnCount; i++) {
                 rowData.put(md.getColumnName(i), rs.getObject(i));
             }
-            list.add(rowData);
+            if(columnName==null) {
+                list.add(rowData);
+            }else {
+                list.add(rowData.get(columnName));
+            }
         }
         return list;
     }

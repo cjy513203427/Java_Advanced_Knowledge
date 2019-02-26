@@ -228,6 +228,26 @@ public class Connect_Greenplum {
     }
 
     /**
+     * @Author 谷天乐
+     * @Description 输出查询结果
+     * @Date 2019/2/13 10:33
+     * @Param [rs]
+     * @return void
+     **/
+    public static void generalOutput(ResultSet rs) throws SQLException {
+        ResultSetMetaData md = rs.getMetaData(); //得到结果集(rs)的结构信息，比如字段数、字段名等
+        int columnCount = md.getColumnCount();
+        while(rs.next())
+        {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 1; i <= columnCount; i++) {
+                sb.append(rs.getObject(i)+" ");
+            }
+            System.out.println(sb);
+        }
+    }
+
+    /**
      *
      * @Title: resultSetToList
      * @Description: ResultSet转换成list
@@ -248,7 +268,7 @@ public class Connect_Greenplum {
      * @return: List
      * @throws
      */
-    public static List resultSetToList(ResultSet rs) throws java.sql.SQLException {
+    public static List resultSetToList(ResultSet rs,String columnName) throws java.sql.SQLException {
         if (rs == null)
             return Collections.EMPTY_LIST;
         ResultSetMetaData md = rs.getMetaData(); //得到结果集(rs)的结构信息，比如字段数、字段名等
@@ -260,7 +280,11 @@ public class Connect_Greenplum {
             for (int i = 1; i <= columnCount; i++) {
                 rowData.put(md.getColumnName(i), rs.getObject(i));
             }
-            list.add(rowData);
+            if(columnName==null) {
+                list.add(rowData);
+            }else {
+                list.add(rowData.get(columnName));
+            }
         }
         return list;
     }
@@ -390,9 +414,10 @@ public class Connect_Greenplum {
 
 
             //查询
-            String selectSql = "select * from ta_ovm_cust_01_day_20190108";
+            String selectSql = "select * from tb_cp_02";
             ResultSet rs = query(selectSql);
-            /*List<TbInfo> tbInfos = resultSetToList(rs);
+            generalOutput(rs);
+/*            List<TbInfo> tbInfos = resultSetToList(rs);
             Iterator it = tbInfos.iterator();
             while(it.hasNext()) {
                 Map hm = (Map)it.next();
@@ -401,8 +426,8 @@ public class Connect_Greenplum {
                 System.out.println(hm.get("date"));
             }*/
 
-            List<String> date = resultSetToList2(rs);
-            System.out.println(date);
+            //List<String> date = resultSetToList2(rs);
+            //System.out.println(date);
             //addColumn("ta_ovm_cust_01_day_20190108","description text");
             //dropColumn("ta_ovm_cust_01_day_20190108","description");
 

@@ -1,7 +1,8 @@
 package com.advance.analysis;
 import com.advance.JDBC.Connect_GBase;
+import com.advance.Redis.RedisUtil;
 import org.apache.log4j.Logger;
-import redis.clients.jedis.Jedis;
+import org.testng.annotations.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -418,23 +419,22 @@ public class Analysis {
     }
 
     //根据Map获取指定key的value
-    public static List getSpecifiedListFromMap(LinkedHashMap<String, Set<Map>> resultMap, String key) throws InterruptedException {
-        List<Object> list = new ArrayList<>();
+    public Set getSpecifiedListFromMap(LinkedHashMap<String, Set<Map>> resultMap, String key,String id) throws Exception{
+        Set<Object> set = new HashSet<>();
 
-        Jedis jedis = new Jedis("localhost");
         for (Map.Entry<String, Set<Map>> entry : resultMap.entrySet()) {
+            new RedisUtil().del(id);
             for(Map maplist : entry.getValue()){
-                list.add(maplist.get(key));
-                //存储数据到列表中
-                jedis.lpush("test_column",String.valueOf(maplist.get(key)));
+                set.add(maplist.get(key));
+                new RedisUtil().lpush(id,String.valueOf(maplist.get(key)));
             }
         }
         logger.debug(Analysis.class+"Jedis插入数据成功");
-        return list;
+        return set;
     }
 
-    // 测试
-    public static void main(String args[]) throws SQLException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException, InterruptedException {
+    @Test
+    public void test() throws Exception {
         //a>=20 & (b<=40|c!=1) | d
         //id<=5&(id<=3|id<=5)|(amt=45.00|id<=6)
         //id<=5|id<=5&amt=45.00|id<=6
@@ -442,7 +442,7 @@ public class Analysis {
         String num = "(A_I72=1&A_I59=0)"; // 默认的算式
         Analysis analysis = new Analysis();
         LinkedHashMap<String, Set<Map>> resultMap = analysis.caculate(num);
-        getSpecifiedListFromMap(resultMap,"amt");
+        getSpecifiedListFromMap(resultMap,"serial_number","ssss1111");
         logger.debug(resultMap);
 
     }

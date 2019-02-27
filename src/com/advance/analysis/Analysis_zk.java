@@ -1,11 +1,5 @@
 package com.advance.analysis;
 
-/**
- * @Author: 谷天乐
- * @Date: 2019/2/25 10:34
- * @Description:
- */
-
 import com.advance.Engine_and_Message.util.NonUtil;
 import com.advance.JDBC.Connect_Greenplum;
 import org.apache.log4j.LogManager;
@@ -15,10 +9,9 @@ import java.sql.ResultSet;
 import java.util.*;
 
 /**
- * @Title:  GPUtil.java
- * @Package cn.finedo.dsp_service.service.util
+ * @Title:  Analysis_zk.java
  * @Description: 规则解析工具
- * @author: chenjinyao
+ * @author: zhangkuo
  * @date:   2019-2-18 上午9:03:28
  */
 public class Analysis_zk {

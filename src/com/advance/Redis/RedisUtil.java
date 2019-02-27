@@ -1,6 +1,5 @@
 package com.advance.Redis;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 import redis.clients.jedis.Jedis;
@@ -14,9 +13,9 @@ import java.util.*;
  * @Description: 根据原生Jedis封装常用工具
  */
 public class RedisUtil{
-    private static Logger logger = Logger.getLogger(RedisUtil.class);
-    private static final String ip = "localhost";
-    private static final Integer port = 6379;
+    private Logger logger = Logger.getLogger(RedisUtil.class);
+    private final String ip = "localhost";
+    private final Integer port = 6379;
     //获取连接
     public  Jedis connection() throws Exception{
         Jedis jedis = new Jedis(ip,port);
@@ -62,13 +61,13 @@ public class RedisUtil{
         }
     }
 
-    //获取key对应的value总数
+    //获取Set的key对应的value总数
     public Long scard(String key) throws Exception {
         Jedis jedis = connection();
         return jedis.scard(key);
     }
 
-    //获取key对应的所有value
+    //获取Set的key对应的所有value
     public Set<String> smembers(String key) throws Exception {
         Jedis jedis = connection();
         return jedis.smembers(key);
@@ -198,6 +197,7 @@ public class RedisUtil{
         set.add("b");
         r.sadd("set",set);
         Set<String> t = r.smembers("set");
+        Long zahl = r.scard("set");
         logger.debug(t);
     }
 

@@ -14,6 +14,7 @@ import java.io.IOException;
  * @Author: 谷天乐
  * @Date: 2019/3/6 15:25
  * @Description: 描述特定的作业
+ * 打成jar包，放到Linux上运行
  */
 public class WCRunner {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {

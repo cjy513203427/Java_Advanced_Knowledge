@@ -9,6 +9,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -65,10 +67,19 @@ public class HDFSUtil {
                 new Path("hdfs://CentOS7One:9000/aa/qingshu2.txt"));
     }
 
+    @Test
     public void download() throws IOException {
+        Path dst = new Path("hdfs://CentOS7One:9000/aa/qingshu.txt");
+        FSDataInputStream is = fs.open(dst);
+        FileOutputStream os = new FileOutputStream("E://opt//qingshu_cap.txt");
+        IOUtils.copy(is, os);
+    }
+
+    public void capsulation_download() throws IOException {
         fs.copyToLocalFile(new Path("hdfs://CentOS7One:9000/aa/qingshu2.txt"),
                 new Path("E://opt//qingshu.txt"));
     }
+
 
     @Test
     public void listFiles() throws IOException {
@@ -92,7 +103,7 @@ public class HDFSUtil {
 
     @Test
     public void mkdir() throws IOException {
-        fs.mkdirs(new Path("/aaa/bbb/ccc"));
+        fs.mkdirs(new Path("/a"));
     }
 
     public void rm() throws IOException {

@@ -7,6 +7,6 @@ package com.advance.hadoop.rpc;
  * 这里写的单机版本，在同一台机器上，所以只有一份
  */
 public interface LoginServiceInterface {
-    public static final long versionID = 1L;
+    long versionID = 1L;
     public String login(String username,String password);
 }

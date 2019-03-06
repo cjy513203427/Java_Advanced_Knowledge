@@ -27,7 +27,7 @@ public class Connect_GBase {
             e.printStackTrace();
         }
         //URL
-        String url = "jdbc:gbase://192.168.94.140:5258/power";
+        String url = "jdbc:gbase://192.168.94.140:5258/power?characterEncoding=utf8";
         //账号
         String username = "root";
         //密码
@@ -162,9 +162,9 @@ public class Connect_GBase {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         //update("update aa set name = ? where id = ?",new Object[]{"7","1"});
-        //update("insert into aa (id,name) values (?,?)",new Object[]{"5","6"});
+        //update("insert into aa (id,namee) values (?,?)",new Object[]{"6","待执行"});
         //update("delete from aa where id = ?",new Object[]{"5"});
-        ResultSet rs =  query("select * from aa ");
+        ResultSet rs =  query("select * from fd48112019020001800220190304 ");
         //List<Map<String,Object>> result = resultSetToList(rs);
         output(rs);
         closeConnection();

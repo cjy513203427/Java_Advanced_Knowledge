@@ -2,6 +2,7 @@ package com.advance.hadoop.rpc;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ipc.RPC;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -12,6 +13,7 @@ import java.net.InetSocketAddress;
  * @Description: 客户端
  */
 public class LoginController {
+    private static Logger logger = Logger.getLogger(LoginController.class);
     public static void main(String[] args) throws IOException {
         LoginServiceInterface proxy = RPC.getProxy(LoginServiceInterface.class, 1L,
                 new InetSocketAddress("localhost", 9898)
@@ -19,6 +21,6 @@ public class LoginController {
 
         String result = proxy.login("Fakler","123456");
 
-        System.out.println(result);
+        logger.debug(result);
     }
 }

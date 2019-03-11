@@ -17,7 +17,9 @@ import java.io.IOException;
  * 打成jar包，放到Linux上运行
  */
 public class WCRunner {
+
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        System.setProperty("hadoop.home.dir", "D:\\hadoop-2.6.5");
         Configuration conf  = new Configuration();
         Job job = Job.getInstance(conf);
         job.setJarByClass(WCRunner.class);
@@ -31,9 +33,8 @@ public class WCRunner {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(LongWritable.class);
 
-        FileInputFormat.setInputPaths(job,new Path("/wc/srcdata/"));
-
-        FileOutputFormat.setOutputPath(job,new Path("/wc/output/"));
+        FileInputFormat.setInputPaths(job,new Path("E:/opt/srcdata/"));
+        FileOutputFormat.setOutputPath(job,new Path("E:/opt/output/"));
 
         job.waitForCompletion(true);
     }

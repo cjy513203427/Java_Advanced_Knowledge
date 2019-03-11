@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -34,6 +33,7 @@ public class HDFSUtil {
      **/
     @BeforeTest
     public void init() throws IOException, URISyntaxException, InterruptedException {
+        System.setProperty("hadoop.home.dir", "D:\\hadoop-2.6.5");
         Configuration conf = new Configuration();
         conf.set("fs.defaultFS","hdfs://CentOS7One:9000/");
         fs = FileSystem.get(new URI("hdfs://CentOS7One:9000/"),conf,"root");

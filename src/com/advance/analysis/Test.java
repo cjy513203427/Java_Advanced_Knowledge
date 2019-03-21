@@ -7,6 +7,8 @@
 */
 package com.advance.analysis;
 
+import org.apache.log4j.Logger;
+
 import java.util.Stack;
 
 /**
@@ -18,7 +20,7 @@ import java.util.Stack;
  * 计算器
  */
 public class Test {
-
+    private static Logger logger = Logger.getLogger(Test.class);
     /** 数字栈：用于存储表达式中的各个数字 */
     private Stack<Long> numberStack = null;
     /** 符号栈：用于存储运算符和括号 */
@@ -213,7 +215,7 @@ public class Test {
         String num = "3*5+2*10 "; // 默认的算式
         Test test = new Test();
         Long result = test.caculate(num);
-        System.out.println(result);
+        logger.debug(result);
        
     }
 }

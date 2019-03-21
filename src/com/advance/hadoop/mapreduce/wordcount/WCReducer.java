@@ -16,6 +16,7 @@ public class WCReducer extends Reducer<Text,LongWritable,Text,LongWritable>{
      * @Author 谷天乐
      * @Description 在map处理完成后，将所有key-value缓存起来，进行分组，传递<key,values[]>
      * 如<hello,[1,1,1,1...]>
+     * 写入<hello,5>
      * @Date 2019/3/6 15:21
      * @Param [key, values, context]
      * @return void

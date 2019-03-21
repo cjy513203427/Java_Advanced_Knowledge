@@ -14,6 +14,7 @@ import java.io.IOException;
  */
 public class FlowSumMapper extends Mapper<LongWritable,Text,Text,FlowBean> {
     //拿到日志中的一行数据，切分各个字段，抽取出我们需要的字段；手机号，上行流量，下行流量，然后封装成kv发送出去
+    //写入<18895358020,FlowBean>,<18895358020,FlowBean>...,<19840170130,FlowBean>
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         //拿到一行数据

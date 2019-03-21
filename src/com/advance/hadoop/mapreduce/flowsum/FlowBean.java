@@ -1,6 +1,7 @@
 package com.advance.hadoop.mapreduce.flowsum;
 
 import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -11,7 +12,7 @@ import java.io.IOException;
  * @Date: 2019/3/11 11:17
  * @Description:
  */
-public class FlowBean implements Writable {
+public class FlowBean implements WritableComparable<FlowBean> {
     //手机号
     private String phoneNum;
     //上行流量
@@ -84,4 +85,17 @@ public class FlowBean implements Writable {
         downFlow = in.readLong();
         sumFlow = in.readLong();
     }
+
+    @Override
+    /**
+     * @Author 谷天乐
+     * @Description 实现总流量降序排列
+     * @Date 2019/3/21 17:21
+     * @Param [o]
+     * @return int
+     **/
+    public int compareTo(FlowBean o) {
+        return sumFlow>o.getSumFlow()?-1:1;
+    }
+
 }

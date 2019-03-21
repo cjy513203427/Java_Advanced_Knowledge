@@ -15,6 +15,13 @@ import java.io.IOException;
  */
 
 public class WCMapper extends Mapper<LongWritable,Text,Text,LongWritable> {
+    /**
+     * @Author 谷天乐
+     * @Description 写入<I,1>,<I,1>,<Cang,1>...
+     * @Date 2019/3/21 17:36
+     * @Param [key, value, context]
+     * @return void
+     **/
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         //key数据起始偏移量,value文本内容

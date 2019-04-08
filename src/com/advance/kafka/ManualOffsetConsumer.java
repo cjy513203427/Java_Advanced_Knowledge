@@ -21,7 +21,6 @@ public class ManualOffsetConsumer {
         // TODO Auto-generated method stub
         Properties props = new Properties();
         //设置brokerServer(kafka)ip地址
-        //props.put("bootstrap.servers", "192.168.94.138:19092,192.168.94.139:19092,192.168.94.140:19092");
         props.put("bootstrap.servers", "192.168.94.131:9092");
         //设置consumer group name
         props.put("group.id","test-consumer-group");

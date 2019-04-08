@@ -10,16 +10,15 @@ import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 public class KafkaProducerService {
-    private static Logger LOG = LoggerFactory
+    private static Logger LOG = Logger
             .getLogger(KafkaProducerService.class);
 
     public static void main(String[] args) {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.94.138:19092,192.168.94.139:19092,192.168.94.140:19092");
+        props.put("bootstrap.servers", "192.168.94.131:9092");
         props.put("retries", 3);
         props.put("linger.ms", 1);
         props.put("key.serializer",
@@ -30,7 +29,7 @@ public class KafkaProducerService {
                 props);
         for (int i = 0; i < 1; i++) {
             ProducerRecord<String, String> record = new ProducerRecord<String, String>(
-                    "shuaige", "11", "今天天气不错哟yoyo=======>" + i);
+                    "test", "11", "fun day hahhhhhhhhhhhhhhhhhhhhhhhhhhah!=======>" + i);
             producer.send(record, new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception e) {

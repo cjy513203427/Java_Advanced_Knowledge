@@ -34,9 +34,7 @@ public class EngineQueueFactory {
         return instance;
     }
     /**
-     * 在项目启动的过程中进入initialize()方法
-     * 根据spring-busniss.xml中initSize的大小循环
-     * 先循环30次，再循环50次
+     * initialize()方法初始化引擎
      */
     public void initialize(List<EngineDomain> engineList) {
         for (EngineDomain domain : engineList) {
@@ -55,7 +53,7 @@ public class EngineQueueFactory {
                 }
             }
             queueMap.put(domain.getEngineType(), queue);
-            System.out.println("成功初始化[" + domain.getDesc() + "]类引擎["
+            System.out.println("成功初始化[" + domain.getEngineType() + "]类引擎["
                     + domain.getInitsize() + "]个");
 
         }
@@ -69,7 +67,6 @@ public class EngineQueueFactory {
         //手动初始化引擎队列
         EngineQueue queueInitial = new EngineQueue(30);
         queueMap.put("后台报表", queueInitial);
-        queueMap.put("定时报表", queueInitial);
         EngineQueue queue = queueMap.get(engine.getMessage().getMessageType());
         if (queue == null) {
             System.out.println("[" + engine.getMessage().getMessageId() + "] 消息类型["

@@ -56,7 +56,7 @@ public class MessageListener {
                             messageQueue.addMessage(message);//
                         }
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 }catch(Exception e){
                     System.out.println("["+messageType+"] 消息处理异常!"+e);
                 }

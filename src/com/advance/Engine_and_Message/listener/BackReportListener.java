@@ -1,11 +1,11 @@
 package com.advance.Engine_and_Message.listener;
 
+import com.advance.Engine_and_Message.Main.MainRun;
 import com.advance.Engine_and_Message.domain.Message;
 import com.advance.Engine_and_Message.domain.TaskInfo;
 import com.advance.Engine_and_Message.factory.MessageQueueFactory;
+import com.advance.Engine_and_Message.queue.MessageQueue;
 import com.advance.Engine_and_Message.util.NonUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @Auther: 谷天乐
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class BackReportListener {
 
     // 监听间隔时长，单位为秒
-    private int listenerTimes = 1;
+    private int listenerTimes = 10;
 
     public int getListenerTimes() {
         return listenerTimes;
@@ -41,11 +41,11 @@ public class BackReportListener {
 
                     TaskInfo taskInfo = new TaskInfo();
 
-                    int[] waitinglist = taskInfo.getBackrpArr();
-                    if (NonUtil.isNotNon(waitinglist)) {
-                        for (int crp : waitinglist) {
+                    MessageQueue queue = MainRun.queue;
+                    if (NonUtil.isNotNon(queue)) {
+                        /*for (int crp : queue) {
                             System.out.println("监控到未处理后台报表+["
-                                    + waitinglist.toString() + "]");
+                                    + queue.toString() + "]");
                             Message<Object> message = new Message<>();
                             message.setMessageType("后台报表");
                             message.setObject(crp);
@@ -53,6 +53,12 @@ public class BackReportListener {
                                 // 加入消息队列成功，更改报表状态
                             }
 
+                        }*/
+                        System.out.println(getClass()+"监控到未处理后台报表数量为"+queue.getMessageSize());
+                        for(int i=0;i<queue.getMessageSize();i++){
+                            Message<Object> message = new Message<>();
+                            message.setMessageType("后台报表");
+                            message.setObject(queue.getMessage());
                         }
                     }
                 } catch (Exception e) {

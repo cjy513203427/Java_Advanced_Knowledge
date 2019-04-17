@@ -36,9 +36,9 @@ public class MessageQueue {
         try {
             //消息入队
             messageQueue.offer(message, 2, TimeUnit.SECONDS);
-            System.out.println("["+message.getMessageId()+"] 消息入队列");
+            System.out.println("["+message.getMessageSource()+"] 消息入队列");
         } catch (InterruptedException e) {
-            System.out.println("["+message.getMessageId()+"] 消息入队列失败.消息内容["+ JSON.toJSONString(message)+"]" + e);
+            System.out.println("["+message.getMessageSource()+"] 消息入队列失败.消息内容["+ JSON.toJSONString(message)+"]" + e);
             return false;
         }
         return true;

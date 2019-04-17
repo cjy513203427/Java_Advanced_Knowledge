@@ -37,36 +37,10 @@ public class MessageQueueFactory {
         return instance;
     }
 
-    public void initialize(List<EngineDomain> engineList,EngineQueueFactory engineQueueFactory){
+    public void initialize(List<EngineDomain> engineList,EngineQueueFactory engineQueueFactory,MessageQueue queue){
         int counter = 0;
         //engineListSize为2
         for(EngineDomain domain : engineList){
-            MessageQueue queue = new MessageQueue(domain.getInitMessageSize());
-            /**
-             * @Author 谷天乐
-             * @Description 初始化消息
-             * 后台报表消息和定时报表消息
-             * @Date 2018/11/8 17:20
-             **/
-            for(int i=0;i<5;++i) {
-                Message message = new Message();
-                message.setMessageId(String.valueOf(i));
-                message.setMessageSource("数据源" + i);
-                message.setMessageType("后台报表");
-                message.setMessageWay("同步消息");
-
-                queue.addMessage(message);
-            }
-
-            for(int j=0;j<5;++j) {
-                Message message = new Message();
-                message.setMessageId(String.valueOf(j));
-                message.setMessageSource("数据源" + j);
-                message.setMessageType("定时报表");
-                message.setMessageWay("异步消息");
-
-                queue.addMessage(message);
-            }
             this.queueMap.put(domain.getEngineType(), queue);
             MessageListener listener = new MessageListener();
             listener.setMessageQueue(queue);

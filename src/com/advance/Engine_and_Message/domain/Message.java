@@ -12,6 +12,7 @@ public class Message<T> {
     private String messageWay;//消息方式，同步/异步消息
     private T object;//消息体，即指定的消息对象
     private Object messageSource;//消息来源，记得消息来源，同步消息时根据来源返回结果
+    private Integer messagedesc;//待处理内容
 
     public String getMessageId() {
         return messageId;
@@ -42,5 +43,13 @@ public class Message<T> {
     }
     public void setMessageSource(Object messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public Integer getMessagedesc() {
+        return messagedesc;
+    }
+
+    public void setMessagedesc(Integer messagedesc) {
+        this.messagedesc = messagedesc;
     }
 }

@@ -26,7 +26,7 @@ public class Threadmanager {
     public static void addThreadToPool(Long Threadid){
         ThreadManagerDomain threadManagerDomain=new ThreadManagerDomain(Threadid,new Date());
         threadpool.put(Threadid, threadManagerDomain);
-        System.out.println("线程:"+Threadid+"加入，总大小："+threadpool.size());
+        System.out.println("线程:"+Threadid+"加入，线程池总大小："+threadpool.size());
     }
 
     /**

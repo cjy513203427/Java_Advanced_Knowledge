@@ -27,7 +27,7 @@ class hello6 implements Runnable {
                     e.printStackTrace();
                 }
             }
-            System.out.println("main 线程执行-->"+i);
+            System.out.println("MainRun 线程执行-->"+i);
         }
     }
 }

@@ -18,7 +18,7 @@ public class KafkaProducerService {
 
     public static void main(String[] args) {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.94.131:9092");
+        props.put("bootstrap.servers", "192.168.94.150:9092");
         props.put("retries", 3);
         props.put("linger.ms", 1);
         props.put("key.serializer",

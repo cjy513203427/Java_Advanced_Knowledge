@@ -28,10 +28,11 @@ public class WorkingWithDifferentTypesOfCells {
         row.createCell(2).setCellValue(Calendar.getInstance());
         row.createCell(3).setCellValue("a string");
         row.createCell(4).setCellValue(true);
+        //返回"#VALUE!"
         row.createCell(5).setCellType(CellType.ERROR);
 
         // Write the output to a file
-        try (OutputStream fileOut = new FileOutputStream("src/com/advance/poi/excel/quick_guide/working_with_different_types_of_cells/workbook.xls")) {
+        try (OutputStream fileOut = new FileOutputStream("src/com/advance/poi/excel/quick_guide/working_with_different_types_of_cells/file.xls")) {
             wb.write(fileOut);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

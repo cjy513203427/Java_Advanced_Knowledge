@@ -41,7 +41,7 @@ public class CreatingDateCells {
         cell.setCellStyle(cellStyle);
 
         // Write the output to a file
-        try (OutputStream fileOut = new FileOutputStream("src/com/advance/poi/excel/quick_guide/creating_date_cells/workbook.xls")) {
+        try (OutputStream fileOut = new FileOutputStream("src/com/advance/poi/excel/quick_guide/creating_date_cells/file.xls")) {
             wb.write(fileOut);
         } catch (IOException e) {
             e.printStackTrace();

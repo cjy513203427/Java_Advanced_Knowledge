@@ -11,9 +11,9 @@ import java.io.OutputStream;
 /**
  * @Author: 谷天乐
  * @Date: 2019/6/6 17:11
- * @Description:
+ * @Description:xls设置颜色
  */
-public class CustomColors {
+public class HSSFCustomColors {
     public static void main(String[] args) throws IOException {
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet();

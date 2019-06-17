@@ -19,7 +19,7 @@ public class IterateOverCellsWithCondition {
             Workbook wb = WorkbookFactory.create(inp);
             Sheet sheet = wb.getSheetAt(0);
 
-            //设置行起始喝结束
+            //设置行起行结束
             int rowStart = Math.min(15, sheet.getFirstRowNum());
             int rowEnd = Math.max(0, sheet.getLastRowNum());
 

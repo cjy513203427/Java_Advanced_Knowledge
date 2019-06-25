@@ -1,4 +1,4 @@
-package com.advance.poi.excel.quick_guide.images;
+package com.advance.poi.excel.quick_guide.add_images;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.util.IOUtils;

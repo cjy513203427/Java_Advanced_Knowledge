@@ -14,7 +14,7 @@ public class CommandUtil
 {
     private static Logger logger = LogManager.getLogger(CommandUtil.class);
 
-    public void excute(String commandStr){
+    public static void excute(String commandStr){
         try
         {
             Process process = Runtime.getRuntime ().exec (commandStr);
@@ -30,7 +30,7 @@ public class CommandUtil
             {
                 output.append(line+"\n");
             }
-            System.out.println(output);;
+            System.out.println(output);
             process.destroy ();
             br.close ();
             isr.close ();
@@ -43,29 +43,7 @@ public class CommandUtil
 
     public static void main ( String[] args )
     {
-        try
-        {
-            Process process = Runtime.getRuntime ().exec ("ping www.baidu.com");
-            SequenceInputStream sis = new SequenceInputStream (process.getInputStream (), process.getErrorStream ());
-            InputStreamReader isr = new InputStreamReader (sis, "gbk");
-            BufferedReader br = new BufferedReader (isr);
-            // next command
-            OutputStreamWriter osw = new OutputStreamWriter (process.getOutputStream ());
-            BufferedWriter bw = new BufferedWriter (osw);
-            String line = null;
-            StringBuffer output = new StringBuffer();
-            while (null != ( line = br.readLine () ))
-            {
-                output.append(line+"\n");
-            }
-            System.out.println(output);;
-            process.destroy ();
-            br.close ();
-            isr.close ();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace ();
-        }
+        excute("ping www.baidu.com");
+
     }
 }

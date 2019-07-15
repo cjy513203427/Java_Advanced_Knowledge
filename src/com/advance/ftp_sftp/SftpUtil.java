@@ -1,10 +1,11 @@
 package com.advance.ftp_sftp;
 import com.jcraft.jsch.*;
+import org.testng.annotations.Test;
 
 import java.io.*;
 import java.util.Properties;
 
-public class SftpUploadTest {
+public class SftpUtil {
 
     private ChannelSftp sftp = null;
 
@@ -18,7 +19,9 @@ public class SftpUploadTest {
 
     private int port;
 
-    public SftpUploadTest(String username, String password, String host, int port) {
+    public SftpUtil() {}
+
+    public SftpUtil(String username, String password, String host, int port) {
         this.username = username;
         this.password = password;
         this.host = host;
@@ -193,9 +196,22 @@ public class SftpUploadTest {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        SftpUploadTest uploadTest = new SftpUploadTest("user1", "123456", "192.168.94.150", 22);
+    @Test
+    public void testUpLoad() throws JSchException {
+        SftpUtil uploadTest = new SftpUtil("user1", "123456", "192.168.94.150", 22);
         uploadTest.uploadFile("upload/aspectjweaver.jar", "E:\\opt\\sftp\\aspectjweaver.jar");
-        //uploadTest.downloadFile("upload/mysql-connector-java-5.1.28.jar", "E:\\opt\\sftp\\mysql.jar");
+    }
+
+    @Test
+    public void testDownload() throws JSchException {
+        SftpUtil uploadTest = new SftpUtil("user1", "123456", "192.168.94.150", 22);
+        uploadTest.downloadFile("upload/mysql-connector-java-5.1.28.jar", "E:\\opt\\sftp\\mysql.jar");
+
+    }
+
+    public static void main(String[] args) throws Exception {
+        SftpUtil uploadTest = new SftpUtil("user1", "123456", "192.168.94.150", 22);
+        //uploadTest.uploadFile("upload/aspectjweaver.jar", "E:\\opt\\sftp\\aspectjweaver.jar");
+        uploadTest.downloadFile("upload/mysql-connector-java-5.1.28.jar", "E:\\opt\\sftp\\mysql.jar");
     }
 }

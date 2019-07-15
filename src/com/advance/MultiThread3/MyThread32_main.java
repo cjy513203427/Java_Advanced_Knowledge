@@ -2,17 +2,18 @@ package com.advance.MultiThread3;
 
 /**
  * @Author: 谷天乐
- * @Date: 2019/7/11 16:27
+ * @Date: 2019/7/15 17:58
  * @Description:
  */
-public class MyThread_main {
+public class MyThread32_main {
     public static void main(String[] args) throws Exception
     {
         Object lock = new Object();
-        MyThread30_0 mt0 = new MyThread30_0(lock);
+        MyThread32_0 mt0 = new MyThread32_0(lock);
         mt0.start();
-        Thread.sleep(3000);
-        MyThread30_1 mt1 = new MyThread30_1(lock);
+        MyThread32_1 mt1 = new MyThread32_1(lock);
         mt1.start();
+        MyThread32_1 mt2 = new MyThread32_1(lock);
+        mt2.start();
     }
 }

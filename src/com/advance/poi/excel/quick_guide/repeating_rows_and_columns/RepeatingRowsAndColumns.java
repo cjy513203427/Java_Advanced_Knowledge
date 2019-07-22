@@ -25,12 +25,12 @@ public class RepeatingRowsAndColumns {
         Sheet sheet1 = wb.createSheet("Sheet1");
         Sheet sheet2 = wb.createSheet("Sheet2");
 
-        sheet1.createRow(4).createCell(0).setCellValue("sss");
+        sheet1.createRow(4).createCell(0).setCellValue("ThreadDomain42");
         sheet1.createRow(5).createCell(0).setCellValue("ssda");
         // Set the rows to repeat from row 4 to 5 on the first sheet.
         sheet1.setRepeatingRows(CellRangeAddress.valueOf("4:5"));
         Row row1 = sheet2.createRow(1);
-        row1.createCell(0).setCellValue("sss");
+        row1.createCell(0).setCellValue("ThreadDomain42");
         row1.createCell(1).setCellValue("22");
         // Set the columns to repeat from column A to C on the second sheet
         sheet2.setRepeatingColumns(CellRangeAddress.valueOf("A:C"));

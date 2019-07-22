@@ -19,7 +19,7 @@ public class Headers {
     public static void main(String[] args) throws IOException {
         Workbook wb = new HSSFWorkbook();
         Sheet sheet = wb.createSheet("new sheet");
-        sheet.createRow(0).createCell(0).setCellValue("sss");
+        sheet.createRow(0).createCell(0).setCellValue("ThreadDomain42");
         sheet.createRow(1).createCell(0).setCellValue("ssda");
         Header header = sheet.getHeader();
         header.setCenter("Center Header");

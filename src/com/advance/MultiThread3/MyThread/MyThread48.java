@@ -1,0 +1,31 @@
+package com.advance.MultiThread3.MyThread;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * @Author: 谷天乐
+ * @Date: 2019/9/16 18:07
+ * @Description:
+ */
+public class MyThread48 {
+    public static void main(String[] args) {
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 10; i++) {
+            final int index = i;
+
+            fixedThreadPool.execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(index);
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+}

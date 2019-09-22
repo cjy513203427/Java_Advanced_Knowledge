@@ -5,9 +5,9 @@ package com.advance.MultiThread3.MyThread;
  * @Date: 2019/6/21 17:54
  * @Description:
  */
-public class MyThread100 extends Thread{
+public class MyThread45_1 extends Thread{
     public static void main(String args[]) throws Exception {
-        MyThread100 thread = new MyThread100();
+        MyThread45_1 thread = new MyThread45_1();
         System.out.println("启动线程...");
         thread.start();
         Thread.sleep(3000);
